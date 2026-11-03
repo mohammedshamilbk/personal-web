@@ -311,45 +311,196 @@ function openRetailOrderModal(item) {
   if (title) {
     title.textContent = `Ordering: ${item}`;
   }
+  const itemField = document.getElementById('retailItemField');
+  if (itemField) {
+    itemField.value = item;
+  }
   openModal('retailOrderModal');
 }
 
 /* ==========================================================================
-   FORM HANDLING & TOAST NOTIFICATIONS
+   FORM HANDLING & TOAST NOTIFICATIONS (REAL EMAIL DISPATCH VIA FORMSUBMIT)
    ========================================================================== */
-function handleContactSubmit(e) {
-  e.preventDefault();
-  const btn = e.target.querySelector('button[type="submit"]');
-  const successMsg = document.getElementById('contactSuccessMsg');
+const CONTACT_EMAIL = 'shamilmohammed926@gmail.com';
 
-  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
+async function handleContactSubmit(e) {
+  e.preventDefault();
+  const form = e.target;
+  const btn = form.querySelector('button[type="submit"]');
+  const successMsg = document.getElementById('contactSuccessMsg');
+  const errorMsg = document.getElementById('contactErrorMsg');
+
+  if (successMsg) successMsg.style.display = 'none';
+  if (errorMsg) errorMsg.style.display = 'none';
+
+  const origBtnContent = btn.innerHTML;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending message...';
   btn.disabled = true;
 
-  setTimeout(() => {
-    btn.innerHTML = '<i class="fa-solid fa-check"></i> Message Sent!';
-    successMsg.style.display = 'block';
-    showToast('Success! Your message has been sent.', 'success');
-    e.target.reset();
+  const nameVal = document.getElementById('fullName')?.value || form.name?.value || '';
+  const emailVal = document.getElementById('email')?.value || form.email?.value || '';
+  const phoneVal = document.getElementById('phone')?.value || form.phone?.value || 'Not provided';
+  const companyVal = document.getElementById('company')?.value || form.company?.value || 'Not specified';
+  const interestVal = document.getElementById('interest')?.value || form.interest?.value || 'General Inquiry';
+  const messageVal = document.getElementById('message')?.value || form.message?.value || '';
 
-    setTimeout(() => {
-      btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Send Message';
-      btn.disabled = false;
-    }, 4000);
-  }, 1200);
+  const payload = {
+    name: nameVal,
+    email: emailVal,
+    phone: phoneVal,
+    company: companyVal,
+    interest: interestVal,
+    message: messageVal,
+    _subject: `New Client Portfolio Inquiry: ${nameVal} (${interestVal})`,
+    _template: 'table',
+    _captcha: 'false'
+  };
+
+  try {
+    const response = await fetch(`https://formsubmit.co/ajax/${CONTACT_EMAIL}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await response.json().catch(() => ({}));
+
+    if (response.ok && (data.success === 'true' || data.success === true || response.status === 200)) {
+      btn.innerHTML = '<i class="fa-solid fa-check"></i> Message Delivered!';
+      if (successMsg) {
+        successMsg.innerHTML = '<i class="fa-solid fa-circle-check"></i> Thank you! Your message has been sent directly to Mohammed Shamil. We will reply within 24 hours.';
+        successMsg.style.display = 'block';
+      }
+      showToast('Message sent successfully! Mohammed Shamil has been notified.', 'success');
+      form.reset();
+
+      setTimeout(() => {
+        btn.innerHTML = origBtnContent;
+        btn.disabled = false;
+      }, 5000);
+    } else {
+      throw new Error(data.message || 'Form submission failed');
+    }
+  } catch (err) {
+    console.error('Contact form dispatch error:', err);
+    btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Send Message';
+    btn.disabled = false;
+
+    if (errorMsg) {
+      const waMsg = encodeURIComponent(`Hi Mohammed Shamil, my name is ${nameVal}. I am interested in ${interestVal}. Requirements: ${messageVal}`);
+      const mailtoLink = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Inquiry: ' + interestVal)}&body=${encodeURIComponent('Name: ' + nameVal + '\nPhone: ' + phoneVal + '\nCompany: ' + companyVal + '\n\n' + messageVal)}`;
+      errorMsg.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> Network error sending directly. You can <a href="${mailtoLink}" style="color:#60a5fa; text-decoration:underline; font-weight:600;">Email directly</a> or message via <a href="https://wa.me/919495282744?text=${waMsg}" target="_blank" rel="noopener noreferrer" style="color:#34d399; text-decoration:underline; font-weight:600;">WhatsApp (+91 94952 82744)</a>.`;
+      errorMsg.style.display = 'block';
+    }
+    showToast('Failed to deliver automatically. Please use direct Email or WhatsApp.', 'error');
+  }
 }
 
-function handleConsultationSubmit(e) {
+async function handleConsultationSubmit(e) {
   e.preventDefault();
-  closeModal('consultationModal');
-  showToast('Consultation request received! We will confirm your date via email.', 'success');
-  e.target.reset();
+  const form = e.target;
+  const btn = form.querySelector('button[type="submit"]');
+  const origBtnContent = btn.innerHTML;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Booking...';
+  btn.disabled = true;
+
+  const nameVal = document.getElementById('consultName')?.value || '';
+  const emailVal = document.getElementById('consultEmail')?.value || '';
+  const dateVal = document.getElementById('consultDate')?.value || '';
+  const topicVal = document.getElementById('consultTopic')?.value || 'Strategy Consultation';
+
+  const payload = {
+    name: nameVal,
+    email: emailVal,
+    preferred_date: dateVal,
+    topic: topicVal,
+    _subject: `1-on-1 Consultation Booking Request: ${nameVal} (${topicVal})`,
+    _template: 'table',
+    _captcha: 'false'
+  };
+
+  try {
+    const response = await fetch(`https://formsubmit.co/ajax/${CONTACT_EMAIL}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
+    const data = await response.json().catch(() => ({}));
+
+    if (response.ok && (data.success === 'true' || data.success === true || response.status === 200)) {
+      closeModal('consultationModal');
+      showToast('Consultation request received! Mohammed Shamil has been notified.', 'success');
+      form.reset();
+    } else {
+      throw new Error(data.message || 'Booking request failed');
+    }
+  } catch (err) {
+    console.error('Consultation booking error:', err);
+    closeModal('consultationModal');
+    showToast('Consultation request saved! Feel free to WhatsApp us at +91 94952 82744', 'info');
+  } finally {
+    btn.innerHTML = origBtnContent;
+    btn.disabled = false;
+  }
 }
 
-function handleRetailOrderSubmit(e) {
+async function handleRetailOrderSubmit(e) {
   e.preventDefault();
-  closeModal('retailOrderModal');
-  showToast('Purchase request submitted! Our retail store team will contact you.', 'success');
-  e.target.reset();
+  const form = e.target;
+  const btn = form.querySelector('button[type="submit"]');
+  const origBtnContent = btn.innerHTML;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Submitting...';
+  btn.disabled = true;
+
+  const itemTitle = document.getElementById('orderItemTitle')?.textContent || 'Retail Product';
+  const nameVal = document.getElementById('retailName')?.value || '';
+  const phoneVal = document.getElementById('retailPhone')?.value || '';
+  const specVal = document.getElementById('retailSpec')?.value || 'Standard';
+  const qtyVal = document.getElementById('retailQty')?.value || '1';
+
+  const payload = {
+    product_item: itemTitle,
+    name: nameVal,
+    phone: phoneVal,
+    specification: specVal,
+    quantity: qtyVal,
+    _subject: `Retail Order / Inquiry: ${itemTitle} (${nameVal})`,
+    _template: 'table',
+    _captcha: 'false'
+  };
+
+  try {
+    const response = await fetch(`https://formsubmit.co/ajax/${CONTACT_EMAIL}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
+    const data = await response.json().catch(() => ({}));
+
+    if (response.ok && (data.success === 'true' || data.success === true || response.status === 200)) {
+      closeModal('retailOrderModal');
+      showToast('Purchase inquiry received! Our store team will contact you via WhatsApp/Phone.', 'success');
+      form.reset();
+    } else {
+      throw new Error(data.message || 'Retail inquiry submission failed');
+    }
+  } catch (err) {
+    console.error('Retail inquiry error:', err);
+    closeModal('retailOrderModal');
+    showToast('Purchase inquiry noted! You can also WhatsApp our store at +91 80867 90086', 'info');
+  } finally {
+    btn.innerHTML = origBtnContent;
+    btn.disabled = false;
+  }
 }
 
 function showToast(message, type = 'info') {

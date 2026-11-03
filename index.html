@@ -981,9 +981,11 @@
           <div class="contact-info-item">
             <div class="contact-info-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
             <div>
-              <strong>Personal Phone</strong>
-              <div style="font-size:0.875rem; color:var(--text-muted);">
+              <strong>Personal Phone & WhatsApp</strong>
+              <div style="font-size:0.875rem; color:var(--text-muted); display:flex; flex-wrap:wrap; gap:0.5rem; align-items:center; margin-top:0.25rem;">
                 <a href="tel:+919495282744" style="color:var(--accent-tech); font-weight:600;">+91 94952 82744</a>
+                <span>&bull;</span>
+                <a href="https://wa.me/919495282744?text=Hi%20Mohammed%20Shamil,%20I%20am%20reaching%20out%20from%20your%20website" target="_blank" rel="noopener noreferrer" style="color:#25D366; font-weight:600; display:inline-flex; align-items:center; gap:0.3rem;"><i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp</a>
               </div>
             </div>
           </div>
@@ -1057,34 +1059,40 @@
 
         <!-- Contact Form Card -->
         <div class="contact-form-card">
-          <form id="contactForm" onsubmit="handleContactSubmit(event)">
+          <form id="contactForm" action="https://formsubmit.co/shamilmohammed926@gmail.com" method="POST" onsubmit="handleContactSubmit(event)">
+            <!-- FormSubmit Anti-Spam & Configuration -->
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_subject" value="New Client Inquiry - Mohammed Shamil Portfolio">
+            <input type="text" name="_honey" style="display:none">
+
             <div class="form-group-row">
               <div class="form-group">
                 <label class="form-label" for="fullName">Full Name *</label>
-                <input type="text" id="fullName" class="form-control" placeholder="e.g. John Doe" required>
+                <input type="text" id="fullName" name="name" class="form-control" placeholder="e.g. John Doe" required>
               </div>
 
               <div class="form-group">
                 <label class="form-label" for="email">Email Address *</label>
-                <input type="email" id="email" class="form-control" placeholder="john@example.com" required>
+                <input type="email" id="email" name="email" class="form-control" placeholder="john@example.com" required>
               </div>
             </div>
 
             <div class="form-group-row">
               <div class="form-group">
                 <label class="form-label" for="phone">Phone Number</label>
-                <input type="tel" id="phone" class="form-control" placeholder="+91 98765 43210">
+                <input type="tel" id="phone" name="phone" class="form-control" placeholder="+91 98765 43210">
               </div>
 
               <div class="form-group">
                 <label class="form-label" for="company">Company / Organization</label>
-                <input type="text" id="company" class="form-control" placeholder="e.g. Bereeze Retail">
+                <input type="text" id="company" name="company" class="form-control" placeholder="e.g. Bereeze Retail">
               </div>
             </div>
 
             <div class="form-group">
               <label class="form-label" for="interest">Primary Interest *</label>
-              <select id="interest" class="form-control form-select" required>
+              <select id="interest" name="interest" class="form-control form-select" required>
                 <option value="" disabled selected>Select service domain...</option>
                 <option value="Software Development">Software Development / POS Billing</option>
                 <option value="Retail Solutions">Retail Operations / Footwear & Craft</option>
@@ -1096,7 +1104,7 @@
 
             <div class="form-group">
               <label class="form-label" for="message">Project Requirements / Message *</label>
-              <textarea id="message" class="form-control"
+              <textarea id="message" name="message" class="form-control"
                 placeholder="Tell us about your project goals or travel dates..." required></textarea>
             </div>
 
@@ -1105,8 +1113,10 @@
             </button>
 
             <div class="form-success-msg" id="contactSuccessMsg">
-              <i class="fa-solid fa-circle-check"></i> Thanks for reaching out! We'll be in touch within 24 hours.
+              <i class="fa-solid fa-circle-check"></i> Thanks for reaching out! Your message was sent directly to Mohammed Shamil.
             </div>
+
+            <div class="form-error-msg" id="contactErrorMsg"></div>
           </form>
         </div>
       </div>
@@ -1221,32 +1231,38 @@
       <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Book an executive advisory or technical discovery
         session with Mohammed Shamil.</p>
 
-      <form onsubmit="handleConsultationSubmit(event)">
+      <form id="consultationForm" action="https://formsubmit.co/shamilmohammed926@gmail.com" method="POST" onsubmit="handleConsultationSubmit(event)">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_subject" value="1-on-1 Consultation Request - Mohammed Shamil">
+        <input type="text" name="_honey" style="display:none">
+
         <div class="form-group">
-          <label class="form-label">Your Name *</label>
-          <input type="text" class="form-control" required placeholder="Full Name">
+          <label class="form-label" for="consultName">Your Name *</label>
+          <input type="text" id="consultName" name="name" class="form-control" required placeholder="Full Name">
         </div>
         <div class="form-group">
-          <label class="form-label">Email Address *</label>
-          <input type="email" class="form-control" required placeholder="name@company.com">
+          <label class="form-label" for="consultEmail">Email Address *</label>
+          <input type="email" id="consultEmail" name="email" class="form-control" required placeholder="name@company.com">
         </div>
         <div class="form-group-row">
           <div class="form-group">
-            <label class="form-label">Preferred Date *</label>
-            <input type="date" class="form-control" required>
+            <label class="form-label" for="consultDate">Preferred Date *</label>
+            <input type="date" id="consultDate" name="preferred_date" class="form-control" required>
           </div>
           <div class="form-group">
-            <label class="form-label">Consultation Topic</label>
-            <select class="form-control form-select">
-              <option>Enterprise POS & Billing</option>
-              <option>Retail Operations & Footwear</option>
-              <option>Travel & Tourism Packages</option>
-              <option>General Tech Strategy</option>
+            <label class="form-label" for="consultTopic">Consultation Topic</label>
+            <select id="consultTopic" name="topic" class="form-control form-select">
+              <option value="Enterprise POS & Billing">Enterprise POS & Billing</option>
+              <option value="Retail Operations & Footwear">Retail Operations & Footwear</option>
+              <option value="Travel & Tourism Packages">Travel & Tourism Packages</option>
+              <option value="General Tech Strategy">General Tech Strategy</option>
             </select>
           </div>
         </div>
-        <button type="submit" class="btn btn-primary" style="width:100%; margin-top:1rem;">Confirm Appointment
-          Request</button>
+        <button type="submit" class="btn btn-primary" style="width:100%; margin-top:1rem;">
+          <i class="fa-solid fa-calendar-check"></i> Confirm Appointment Request
+        </button>
       </form>
     </div>
   </div>
@@ -1311,27 +1327,34 @@
           style="color:var(--accent-retail);"></i> Retail Purchase / Inquiry</h3>
       <p style="color: var(--text-secondary); margin-bottom: 1.5rem;" id="orderItemTitle">Item Order Inquiry</p>
 
-      <form onsubmit="handleRetailOrderSubmit(event)">
+      <form id="retailOrderForm" action="https://formsubmit.co/shamilmohammed926@gmail.com" method="POST" onsubmit="handleRetailOrderSubmit(event)">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_subject" value="Retail Order / Inquiry - Bereeze Retail">
+        <input type="text" name="_honey" style="display:none">
+        <input type="hidden" id="retailItemField" name="product_item" value="Retail Item">
+
         <div class="form-group">
-          <label class="form-label">Your Name *</label>
-          <input type="text" class="form-control" required placeholder="Full Name">
+          <label class="form-label" for="retailName">Your Name *</label>
+          <input type="text" id="retailName" name="name" class="form-control" required placeholder="Full Name">
         </div>
         <div class="form-group">
-          <label class="form-label">Contact Phone / WhatsApp *</label>
-          <input type="tel" class="form-control" required placeholder="+91 Phone Number">
+          <label class="form-label" for="retailPhone">Contact Phone / WhatsApp *</label>
+          <input type="tel" id="retailPhone" name="phone" class="form-control" required placeholder="+91 Phone Number">
         </div>
         <div class="form-group-row">
           <div class="form-group">
-            <label class="form-label">Shoe Size / Spec</label>
-            <input type="text" class="form-control" placeholder="e.g. Size 9 UK / Custom">
+            <label class="form-label" for="retailSpec">Shoe Size / Spec</label>
+            <input type="text" id="retailSpec" name="shoe_size_spec" class="form-control" placeholder="e.g. Size 9 UK / Custom">
           </div>
           <div class="form-group">
-            <label class="form-label">Quantity</label>
-            <input type="number" class="form-control" value="1" min="1">
+            <label class="form-label" for="retailQty">Quantity</label>
+            <input type="number" id="retailQty" name="quantity" class="form-control" value="1" min="1">
           </div>
         </div>
-        <button type="submit" class="btn btn-retail" style="width:100%; margin-top:1rem;">Submit Purchase
-          Request</button>
+        <button type="submit" class="btn btn-retail" style="width:100%; margin-top:1rem;">
+          <i class="fa-solid fa-bag-shopping"></i> Submit Purchase Request
+        </button>
       </form>
     </div>
   </div>
