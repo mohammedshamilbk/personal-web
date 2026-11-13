@@ -1,7 +1,7 @@
 <div align="center">
 
   # 🌟 Mohammed Shamil
-  ### **Full-Stack Software Architect • Retail Entrepreneur • Travel Operator**
+  ### **Full-Stack Software Architect • Systems Developer • Creative Director**
 
   <p align="center">
     <a href="https://mohammedshamilbk.github.io/personal-web/"><img src="https://img.shields.io/badge/🚀_Live_Website-Visit_Portfolio-00d2ff?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Live Website"></a>
@@ -11,7 +11,7 @@
   </p>
 
   <p align="center">
-    <i>"Bridging high-performance software engineering with real-world enterprise operations."</i>
+    <i>"Engineering high-performance software systems and modern digital solutions."</i>
   </p>
 
   ---
@@ -19,17 +19,17 @@
 </div>
 
 ## 🌐 Live Experience
-Explore the fully interactive, responsive portfolio & business showcase:
+Explore the fully interactive, responsive portfolio & software showcase:
 👉 **[mohammedshamilbk.github.io/personal-web](https://mohammedshamilbk.github.io/personal-web/)**
 
 ---
 
 ## 👨‍💻 Executive Summary
-Founder & Software Architect building mission-critical business software, scalable ERP architectures, and modern web applications while directing multi-vertical businesses spanning retail footwear, artisan craft stores, and bespoke tourism experiences.
+Founder & Software Architect building mission-critical business software, scalable ERP architectures, secure digital identity systems, and modern web applications.
 
 * 📍 **Base**: Kasaragod, Kerala, India
-* 💼 **Specialization**: Enterprise Software, POS Systems, Custom ERP, Digital ID Solutions
-* 🏢 **Enterprises**: Bereeze Footwear, Craft House, Big Trip Travels, Master Cloud
+* 💼 **Specialization**: Enterprise POS Systems, Custom ERP, Digital ID Solutions, Database Automation
+* ⚡ **Studio**: Master Cloud Creative Media
 
 ---
 
@@ -48,43 +48,35 @@ Founder & Software Architect building mission-critical business software, scalab
 
 ---
 
-## 💼 Ventures & Business Ecosystem
+## 💼 Core Solutions & Architectures
 
 ```mermaid
 graph TD
     MS[Mohammed Shamil] --> SC[Software Engineering]
-    MS --> BF[Bereeze Footwear]
-    MS --> CH[Craft House]
-    MS --> BT[Big Trip Travels]
+    MS --> DB[Database & Systems]
     MS --> MC[Master Cloud Studio]
 
-    SC --> POS[Enterprise POS & ERP Systems]
+    SC --> POS[Enterprise POS & Billing Systems]
     SC --> QR[Digital ID & QR Architectures]
-    BF --> Retail[Footwear & Fashion Commerce]
-    CH --> Artisan[Custom Crafts & Lifestyle Decor]
-    BT --> Tours[Kerala Backwaters & Curated Journeys]
-    MC --> Creative[Branding & Creative Design Studio]
+    DB --> ERP[Inventory ERP & GST Financials]
+    DB --> SEC[Encrypted Document Authentication]
+    MC --> Creative[Branding, UI/UX & Creative Media]
 ```
 
-### 1. 💻 Software & Digital Architecture
-* **Bereeze Footwear Enterprise POS**: Real-time barcode scanning, multi-tier inventory categorization, GST invoice compliance, and daily sales ledger.
-* **Digital ID & Verification**: Automated cryptographic credentials, student records, and QR attendance systems.
-* **Master Logo QR Suite**: Custom branded dynamic QR generator for seamless payment and menu integration.
+### 1. 💻 Enterprise POS & Billing System
+* High-performance point-of-sale desktop application with rapid barcode scanning, real-time inventory synchronization, GST tax invoice generation, and sales reporting.
 
-### 2. 👟 Bereeze Footwear
-* High-volume retail showroom featuring formal, casual, and premium lifestyle footwear collections.
-* Website: [breezefootwear.com](https://breezefootwear.com/) | Instagram: [@breeze_footwears](https://www.instagram.com/breeze_footwears)
+### 2. 🛡️ Digital ID & Document Verification Suite
+* Secure identity verification engine with SHA-256 document hashing, cryptographic validation, and tamper-proof database storage.
 
-### 3. 🎨 Craft House
-* Artisan decor, custom handcrafted gifts, and tailored design accessories.
-* Phone: `+91 70343 60086` | Instagram: [@crafthousein.ksd](https://www.instagram.com/crafthousein.ksd)
+### 3. 📱 Dynamic Branded QR Suite
+* Custom QR code generation engine that embeds high-resolution brand logos while preserving 100% error-correction scanning tolerance.
 
-### 4. 🌴 Big Trip Travels
-* Curated travel packages across South India & international destinations, specializing in Kerala luxury houseboat stays and eco-tourism.
-* Website: [bigtriptravels.com](https://bigtriptravels.com/)
+### 4. 📦 Inventory Management ERP
+* Automated stock monitoring platform with low-stock alerts, multi-category organization, and sales velocity analytics.
 
 ### 5. ⚡ Master Cloud Creative Studio
-* Branding, creative media, visual identity, and social media growth engineering.
+* Digital UI/UX design, visual storytelling, branding, motion graphics, and creative digital media.
 * Instagram: [@master.cloud_](https://www.instagram.com/master.cloud_)
 
 ---
@@ -95,11 +87,12 @@ graph TD
 
 | Channel | Details |
 | :--- | :--- |
-| 📞 **Personal Mobile** | [`+91 94952 82744`](tel:+919495282744) |
+| 📞 **Personal Mobile & WhatsApp** | [`+91 94952 82744`](tel:+919495282744) • [WhatsApp Chat](https://wa.me/919495282744) |
 | ✉️ **Direct Email** | `shamilmohammed926@gmail.com` |
 | 💼 **LinkedIn** | [mohammed-shamil-b11120321](https://www.linkedin.com/in/mohammed-shamil-b11120321) |
 | 🐙 **GitHub** | [@mohammedshamilbk](https://github.com/mohammedshamilbk) |
 | 📸 **Personal Instagram** | [@shamil__abdulla](https://www.instagram.com/shamil__abdulla) |
+| 🎨 **Master Cloud Instagram** | [@master.cloud_](https://www.instagram.com/master.cloud_) |
 | 🔗 **Linktree** | [linktr.ee/shamilmohammed926](https://linktr.ee/shamilmohammed926) |
 | 🏢 **Office Address** | Kallumkottam House, East Bevinje, Thekkil Ferry PO, Kasaragod – 671542, Kerala, INDIA |
 

@@ -6,9 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initTheme();
   initNavigation();
   initScrollSpy();
-  calculateTripCost();
   initHero4KCanvas();
-  initTravelRoute4KCanvas();
   init3DParallaxTilt();
 });
 
@@ -129,65 +127,16 @@ function filterProjects(category) {
 }
 
 /* ==========================================================================
-   RETAIL TABS SWITCHER
-   ========================================================================== */
-function switchRetailTab(tabId) {
-  const tabBtns = document.querySelectorAll('.retail-tab-btn');
-  const tabContents = document.querySelectorAll('.retail-tab-content');
-
-  tabBtns.forEach(btn => btn.classList.remove('active'));
-  tabContents.forEach(content => content.classList.remove('active'));
-
-  event.currentTarget.classList.add('active');
-  const targetContent = document.getElementById(`tab-${tabId}`);
-  if (targetContent) {
-    targetContent.classList.add('active');
-  }
-}
-
-/* ==========================================================================
-   INTERACTIVE TRIP PLANNER COST CALCULATOR
-   ========================================================================== */
-function calculateTripCost() {
-  const destSelect = document.getElementById('tripDestination');
-  const daysInput = document.getElementById('tripDays');
-  const travelersInput = document.getElementById('tripTravelers');
-  const costDisplay = document.getElementById('tripCostDisplay');
-
-  if (!destSelect || !daysInput || !travelersInput || !costDisplay) return;
-
-  const ratePerDay = parseFloat(destSelect.value) || 500;
-  const days = parseInt(daysInput.value) || 1;
-  const travelers = parseInt(travelersInput.value) || 1;
-
-  const totalCost = ratePerDay * days * travelers;
-  costDisplay.textContent = `$${totalCost.toLocaleString()}`;
-}
-
-function requestTripBooking() {
-  closeModal('tripPlannerModal');
-  const interestSelect = document.getElementById('interest');
-  if (interestSelect) {
-    interestSelect.value = 'Travel Services';
-  }
-  const contactSection = document.getElementById('contact');
-  if (contactSection) {
-    contactSection.scrollIntoView({ behavior: 'smooth' });
-  }
-  showToast('Destination details populated in contact form!', 'success');
-}
-
-/* ==========================================================================
    CASE STUDY MODAL DETAILS
    ========================================================================== */
 const caseStudyData = {
   pos: {
-    title: "Bereeze Footwear POS System",
-    subtitle: "Enterprise Retail Point-Of-Sale Application",
-    description: "Designed specifically for Bereeze Footwear Fancy, this high-performance POS solution automates retail checkout, prints instant receipts, and manages real-time stock balances across desktop terminals.",
+    title: "Enterprise Retail POS System",
+    subtitle: "High-Performance Retail Point-Of-Sale Application",
+    description: "A comprehensive enterprise POS solution that automates retail checkout, prints instant thermal receipts, and manages real-time stock balances across desktop terminals.",
     tech: ["Java Swing", "Python 3", "MySQL", "SQLite", "ReportLab PDF"],
     highlights: [
-      "Instant barcode barcode scanning & quick checkout pipeline",
+      "Instant barcode scanning & quick checkout pipeline",
       "Thermal receipt printing with auto sales invoice log",
       "Multi-user permission levels (Cashier vs Manager)",
       "Daily revenue breakdown & GST tax reporting"
@@ -225,7 +174,7 @@ const caseStudyData = {
     tech: ["Python", "Flask", "SQLAlchemy", "Chart.js"],
     highlights: [
       "Automated low-stock threshold email alerts",
-      "Categorized shoe size & style matrix tracking",
+      "Multi-category product variant & SKU matrix tracking",
       "Sales velocity analytics graphs"
     ],
     snippet: `class InventoryItem(db.Model):\n    id = db.Column(db.Integer, primary_key=True)\n    name = db.Column(db.String(100), nullable=False)\n    stock_qty = db.Column(db.Integer, default=0)\n    min_reorder_level = db.Column(db.Integer, default=5)`
@@ -300,22 +249,6 @@ function closeModal(modalId) {
 
 function openConsultationModal(topic) {
   openModal('consultationModal');
-}
-
-function openTripPlannerModal() {
-  openModal('tripPlannerModal');
-}
-
-function openRetailOrderModal(item) {
-  const title = document.getElementById('orderItemTitle');
-  if (title) {
-    title.textContent = `Ordering: ${item}`;
-  }
-  const itemField = document.getElementById('retailItemField');
-  if (itemField) {
-    itemField.value = item;
-  }
-  openModal('retailOrderModal');
 }
 
 /* ==========================================================================
@@ -444,59 +377,6 @@ async function handleConsultationSubmit(e) {
     console.error('Consultation booking error:', err);
     closeModal('consultationModal');
     showToast('Consultation request saved! Feel free to WhatsApp us at +91 94952 82744', 'info');
-  } finally {
-    btn.innerHTML = origBtnContent;
-    btn.disabled = false;
-  }
-}
-
-async function handleRetailOrderSubmit(e) {
-  e.preventDefault();
-  const form = e.target;
-  const btn = form.querySelector('button[type="submit"]');
-  const origBtnContent = btn.innerHTML;
-  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Submitting...';
-  btn.disabled = true;
-
-  const itemTitle = document.getElementById('orderItemTitle')?.textContent || 'Retail Product';
-  const nameVal = document.getElementById('retailName')?.value || '';
-  const phoneVal = document.getElementById('retailPhone')?.value || '';
-  const specVal = document.getElementById('retailSpec')?.value || 'Standard';
-  const qtyVal = document.getElementById('retailQty')?.value || '1';
-
-  const payload = {
-    product_item: itemTitle,
-    name: nameVal,
-    phone: phoneVal,
-    specification: specVal,
-    quantity: qtyVal,
-    _subject: `Retail Order / Inquiry: ${itemTitle} (${nameVal})`,
-    _template: 'table',
-    _captcha: 'false'
-  };
-
-  try {
-    const response = await fetch(`https://formsubmit.co/ajax/${CONTACT_EMAIL}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify(payload)
-    });
-    const data = await response.json().catch(() => ({}));
-
-    if (response.ok && (data.success === 'true' || data.success === true || response.status === 200)) {
-      closeModal('retailOrderModal');
-      showToast('Purchase inquiry received! Our store team will contact you via WhatsApp/Phone.', 'success');
-      form.reset();
-    } else {
-      throw new Error(data.message || 'Retail inquiry submission failed');
-    }
-  } catch (err) {
-    console.error('Retail inquiry error:', err);
-    closeModal('retailOrderModal');
-    showToast('Purchase inquiry noted! You can also WhatsApp our store at +91 80867 90086', 'info');
   } finally {
     btn.innerHTML = origBtnContent;
     btn.disabled = false;
@@ -665,108 +545,11 @@ function initHero4KCanvas() {
 }
 
 /* ==========================================================================
-   4K TRAVEL FLIGHT ROUTE & ANIMATED MAP CANVAS ENGINE
-   ========================================================================== */
-function initTravelRoute4KCanvas() {
-  const canvas = document.getElementById('travelRouteCanvas');
-  if (!canvas) return;
-
-  const ctx = canvas.getContext('2d');
-  let width, height;
-  let progress = 0;
-
-  function resize() {
-    width = canvas.parentElement.clientWidth || window.innerWidth;
-    height = canvas.parentElement.clientHeight || 450;
-    const dpr = Math.min(window.devicePixelRatio || 1, 3);
-    canvas.width = width * dpr;
-    canvas.height = height * dpr;
-    ctx.scale(dpr, dpr);
-  }
-
-  const nodes = [
-    { xRatio: 0.12, yRatio: 0.65, label: "Kerala Backwaters", color: "#10b581" },
-    { xRatio: 0.38, yRatio: 0.25, label: "Dubai & Middle East", color: "#f59e0b" },
-    { xRatio: 0.68, yRatio: 0.60, label: "Maldives Luxury Resorts", color: "#38bdf8" },
-    { xRatio: 0.88, yRatio: 0.30, label: "European Alps", color: "#ec4899" }
-  ];
-
-  function renderTravelCanvas() {
-    ctx.clearRect(0, 0, width, height);
-
-    progress += 0.003;
-    if (progress > 1) progress = 0;
-
-    for (let i = 0; i < nodes.length - 1; i++) {
-      const n1 = { x: nodes[i].xRatio * width, y: nodes[i].yRatio * height };
-      const n2 = { x: nodes[i + 1].xRatio * width, y: nodes[i + 1].yRatio * height };
-      const cpX = (n1.x + n2.x) / 2;
-      const cpY = Math.min(n1.y, n2.y) - 50;
-
-      ctx.beginPath();
-      ctx.moveTo(n1.x, n1.y);
-      ctx.quadraticCurveTo(cpX, cpY, n2.x, n2.y);
-      ctx.setLineDash([6, 8]);
-      ctx.strokeStyle = 'rgba(56, 189, 248, 0.35)';
-      ctx.lineWidth = 2;
-      ctx.stroke();
-      ctx.setLineDash([]);
-
-      const t = (progress + i * 0.33) % 1;
-      const jetX = Math.pow(1 - t, 2) * n1.x + 2 * (1 - t) * t * cpX + Math.pow(t, 2) * n2.x;
-      const jetY = Math.pow(1 - t, 2) * n1.y + 2 * (1 - t) * t * cpY + Math.pow(t, 2) * n2.y;
-
-      const jetGlow = ctx.createRadialGradient(jetX, jetY, 0, jetX, jetY, 16);
-      jetGlow.addColorStop(0, 'rgba(16, 185, 129, 0.9)');
-      jetGlow.addColorStop(1, 'rgba(16, 185, 129, 0)');
-
-      ctx.beginPath();
-      ctx.arc(jetX, jetY, 16, 0, Math.PI * 2);
-      ctx.fillStyle = jetGlow;
-      ctx.fill();
-
-      ctx.beginPath();
-      ctx.arc(jetX, jetY, 4, 0, Math.PI * 2);
-      ctx.fillStyle = '#ffffff';
-      ctx.fill();
-    }
-
-    nodes.forEach(node => {
-      const x = node.xRatio * width;
-      const y = node.yRatio * height;
-
-      const pulseRadius = (Math.sin(progress * Math.PI * 4) * 0.5 + 0.5) * 16 + 8;
-      ctx.beginPath();
-      ctx.arc(x, y, pulseRadius, 0, Math.PI * 2);
-      ctx.strokeStyle = `${node.color}55`;
-      ctx.lineWidth = 1.5;
-      ctx.stroke();
-
-      ctx.beginPath();
-      ctx.arc(x, y, 6, 0, Math.PI * 2);
-      ctx.fillStyle = node.color;
-      ctx.fill();
-
-      ctx.font = '600 11px Inter, sans-serif';
-      ctx.fillStyle = '#cbd5e1';
-      ctx.textAlign = 'center';
-      ctx.fillText(node.label, x, y + 20);
-    });
-
-    requestAnimationFrame(renderTravelCanvas);
-  }
-
-  window.addEventListener('resize', resize);
-  resize();
-  requestAnimationFrame(renderTravelCanvas);
-}
-
-/* ==========================================================================
    INTERACTIVE 3D CARD PARALLAX TILT & SPECULAR GLARE ENGINE
    ========================================================================== */
 function init3DParallaxTilt() {
   const tiltCards = document.querySelectorAll(
-    '.travel-card, .destinations-hero-card, .service-card, .project-card, .product-card, .testimonial-card, .ceo-card, .retail-tab-content'
+    '.service-card, .project-card, .ceo-card'
   );
 
   tiltCards.forEach(card => {
