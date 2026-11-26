@@ -60,20 +60,24 @@ function initNavigation() {
 
   // Mobile Menu Toggle
   mobileToggle.addEventListener('click', () => {
-    navMenu.classList.toggle('active');
+    const isActive = navMenu.classList.toggle('active');
     const icon = mobileToggle.querySelector('i');
-    if (navMenu.classList.contains('active')) {
+    if (isActive) {
       icon.className = 'fa-solid fa-xmark';
+      document.body.style.overflow = 'hidden';
     } else {
       icon.className = 'fa-solid fa-bars';
+      document.body.style.overflow = '';
     }
   });
 
   // Close Mobile Nav on Click
-  document.querySelectorAll('.nav-link').forEach(link => {
+  navMenu.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', () => {
       navMenu.classList.remove('active');
-      mobileToggle.querySelector('i').className = 'fa-solid fa-bars';
+      const icon = mobileToggle.querySelector('i');
+      if (icon) icon.className = 'fa-solid fa-bars';
+      document.body.style.overflow = '';
     });
   });
 }
@@ -428,6 +432,19 @@ function initHero4KCanvas() {
     mouse.y = null;
   });
 
+  window.addEventListener('touchmove', (e) => {
+    if (e.touches && e.touches[0]) {
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = e.touches[0].clientX - rect.left;
+      mouse.y = e.touches[0].clientY - rect.top;
+    }
+  }, { passive: true });
+
+  window.addEventListener('touchend', () => {
+    mouse.x = null;
+    mouse.y = null;
+  });
+
   function resizeCanvas() {
     width = canvas.parentElement.clientWidth || window.innerWidth;
     height = canvas.parentElement.clientHeight || window.innerHeight;
@@ -548,6 +565,9 @@ function initHero4KCanvas() {
    INTERACTIVE 3D CARD PARALLAX TILT & SPECULAR GLARE ENGINE
    ========================================================================== */
 function init3DParallaxTilt() {
+  if (window.innerWidth <= 768 || window.matchMedia('(hover: none)').matches) {
+    return;
+  }
   const tiltCards = document.querySelectorAll(
     '.service-card, .project-card, .ceo-card'
   );
